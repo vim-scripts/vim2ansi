@@ -1,0 +1,4 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1127
+
+This is a script to convert current window into ansi color control sequence according to the vim syntax highlighting
+Usage of the script is similar to 2html.vim.
