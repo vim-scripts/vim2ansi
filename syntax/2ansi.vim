@@ -2,17 +2,17 @@
 " Author: Rogerz Zhang <rogerz.zhang@gmail.com>
 " Create: 2004 Nov 10
 " Update:
-" 	2004 Nov 15, 	Greatly improved processing speed
-" 	2004 Nov 12,	Guess color from RGB when in gui
-" 	2004 Nov 11,	Correct bugs when T_co =16
-" 			Set bold as default attribute when in gui
-" 			Correct bug of unmatched AnsiOpening and AnsiClosing
-" 	2004 Nov 10, 	Initial Version	
+"	2004 Nov 15,	Greatly improved processing speed
+"	2004 Nov 12,	Guess color from RGB when in gui
+"	2004 Nov 11,	Correct bugs when T_co =16
+"			Set bold as default attribute when in gui
+"			Correct bug of unmatched AnsiOpening and AnsiClosing
+"	2004 Nov 10,	Initial Version
 " Transform a file into ANSI sequence, using the current syntax highlighting.
 "
 " This script is based on 2html.vim
 " Thanks: Bram Moolenaar <Bram@vim.org>
-" 	  dodowolf@drl
+"	  dodowolf@drl
 
 
 " Number lines when explicitely requested or when `number' is set
@@ -174,7 +174,7 @@ while s:lnum <= s:end
     let s:id = synIDtrans(s:id)
     let s:id_name = synIDattr(s:id, "name", s:whatterm)
     let s:new = s:new . '<span class="' . s:id_name . '">' . strpart(s:line, s:startcol - 1, s:col - s:startcol) . '</span>'
-    
+
     " Add the class to class list if it's not there yet
     if stridx(s:idlist, ",".s:id.",") == -1
       let s:idlist = s:idlist . s:id . ","
@@ -202,7 +202,7 @@ while s:idlist != ""
   let s:idlist = strpart(s:idlist, s:col + 1)
   let s:id_name = synIDattr(s:id, "name", s:whatterm)
   " Apply the class attribute
-  execute '%s+<span class="' . s:id_name . '">\([^<]*\)</span>+' . s:AnsiOpening(s:id) . '\1' . s:AnsiClosing(s:id) . '+g'
+  execute '%s+<span class="' . s:id_name . '">\(.\{-}\)</span>+' . s:AnsiOpening(s:id) . '\1' . s:AnsiClosing(s:id) . '+g'
 endwhile
 
 " Restore old settings
