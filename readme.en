@@ -6,7 +6,12 @@ Description:
 Installation:
 
 	1.Unzip
-	2.Copy files to your vim directory.
+	2.Copy syntax and plugin files to your vim directory.
+	3.Install document
+		cp doc/toansi.txt ~/.vim/doc
+		vim
+		:helptags ~/.vim/doc
+		:q
 
 Usage:
 	Switch to normal mode, enter :TOansi to run the script
@@ -14,6 +19,8 @@ Usage:
 
 Update History:
 
+2005/02/22 Ver 1.3b
+	Help document added
 2004/12/14 Ver 1.3a
 	Fix a bug when source file contains "<"
 	English readme added

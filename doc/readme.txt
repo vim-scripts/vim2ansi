@@ -6,7 +6,12 @@
 安装方法：
 
 	1.解压缩
-	2.将文件拷入相应目录
+	2.将syntax和plugin中的文件拷入相应目录
+	3.安装帮助文档
+		cp doc/toansi.txt ~/.vim/doc/toansi.txt
+	  	vim
+	  	:helptags ~/.vim/doc
+		:q
 
 使用方法：
 
@@ -14,6 +19,8 @@
 	支持设定转换范围，可以参考 :help TOhtml 里的说明
 
 版本更新
+2005/02/22 Ver 1.3b
+	加入help文档
 2004/12/14 Ver 1.3a
 	修正了一个处理"<"的错误
 	加入了英文说明文档
