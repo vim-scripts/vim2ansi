@@ -15,6 +15,8 @@
 	支持设定转换范围，可以参考 :help TOhtml 里的说明
 
 版本更新
+2004/11/12 Ver 1.2
+	加入了对gui下实际色彩的猜测算法
 2004/11/11 Ver 1.1
 	修正了当T_Co = 16时的输出错误
 	修正了AnsiOpening和AnsiClosing的匹配错误

@@ -1,7 +1,9 @@
+
 " Vim syntax support file
 " Author: Rogerz Zhang <rogerz.zhang@gmail.com>
 " Create: 2004 Nov 10
 " Update:
+" 	2004 Nov 12,	Guess color from RGB when in gui
 " 	2004 Nov 11,	Correct bugs when T_co =16
 " 			Set bold as default attribute when in gui
 " 			Correct bug of unmatched AnsiOpening and AnsiClosing
@@ -15,20 +17,48 @@ else
   let s:numblines = &number
 endif
 
+" Guess color from RGB
+function! s:GetR(rgb)
+  return "0x".strpart(a:rgb,1,2)
+endfun
+
+function! s:GetG(rgb)
+  return "0x".strpart(a:rgb,3,2)
+endfun
+
+function! s:GetB(rgb)
+  return "0x".strpart(a:rgb,5,2)
+endfun
+
+function! s:GetAnsiColor(rgb)
+  let red = s:GetR(a:rgb)
+  let green = s:GetG(a:rgb)
+  let blue = s:GetB(a:rgb)
+  let bold = (red>=0xc0 || green>=0xc0 || blue>=0xc0)
+  if bold | let color=(red>0x7f)*1+(green>0x7f)*2+(blue>0x7f)*4
+  else | let color=(red>0x3f)*1+(green>0x3f)*2+(blue>0x3f)*4
+  endif
+  return color+bold*8
+endfun
+
 " Return opening Ansi Sequence tag for given highlight id
 function! s:AnsiOpening(id)
-  let fg = synIDattr(a:id, "fg", "cterm")
-  let bg = synIDattr(a:id, "bg", "cterm")
+  let s:normal = 0
+  let fg = synIDattr(a:id, "fg#")
+  let bg = synIDattr(a:id, "bg#")
   let inv = synIDattr(a:id, "inverse")
   let ul = synIDattr(a:id, "underline")
   let bd = synIDattr(a:id, "bold")
+" When in gui guess the ansi color
+  if has("gui_running")
+    let fg = s:GetAnsiColor(fg)
+    let bg = s:GetAnsiColor(bg)
+  endif
 " Check if it is normal text
   if !(fg || bg || inv || ul || bd) | let s:normal = 1 | return "" | endif
-  let s:normal = 0
-" When in gui set bold as default attribute
-  if has("gui_running") | let bd = 1 | endif
 " When in 16 color term
   if fg > 7 | let fg = fg - 8 | let bd = 1 | endif
+  if bg > 7 | let bg = bg - 8 | endif
 " Resume system color
   if fg == -1 | let bd = 0 | endif
 " Add modifiers
@@ -42,9 +72,9 @@ function! s:AnsiOpening(id)
   " Underline control
     if ul | let a = a . ";4" | endif
   " Frontgroud color and Background color control
-    if fg!="-1" | let a = a . ";3" . fg | endif
+    if fg!=-1 | let a = a . ";3" . fg | endif
     let x = synIDattr(a:id, "bg", "cterm")
-    if bg!="-1" | let a = a . ";4" . bg | endif
+    if bg!=-1&&bg!=0 | let a = a . ";4" . bg | endif
   endif
   " End modifiers
   let a = a . "m"
